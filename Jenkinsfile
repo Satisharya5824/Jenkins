@@ -1,23 +1,36 @@
+```groovy
 pipeline {
     agent {
         label 'AGENT-1'
     }
 
+    environment {
+        COURSE = 'jenkins'
+    }
+
     stages {
+
         stage('Build') {
             steps {
                 script {
-                    echo "building..."
+                    echo "building ..."
+
+                    sh """
+                        echo "Hello Build"
+                        echo "Course: \$COURSE"
+                    """
+
+                    echo 'Building the application'
                 }
-                echo 'Building the application'
             }
         }
 
         stage('Test') {
             steps {
                 script {
-                    echo 'testing...'
+                    echo 'testing ...'
                 }
+
                 echo 'Testing the application'
             }
         }
@@ -25,8 +38,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    echo 'deploying...'
+                    echo 'deploying ...'
                 }
+
                 echo 'Deploying the application'
             }
         }
@@ -34,7 +48,7 @@ pipeline {
 
     post {
         always {
-            echo 'I will always say hello again'
+            echo 'I will always say Hello again!'
             deleteDir()
         }
 
@@ -47,3 +61,4 @@ pipeline {
         }
     }
 }
+```
