@@ -6,20 +6,44 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the project...'
+                script {
+                    echo "building..."
+                }
+                echo 'Building the application'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing...'
+                script {
+                    echo 'testing...'
+                }
+                echo 'Testing the application'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                script {
+                    echo 'deploying...'
+                }
+                echo 'Deploying the application'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'I will always say hello again'
+            deleteDir()
+        }
+
+        success {
+            echo 'Hello Success'
+        }
+
+        failure {
+            echo 'Hello Failure'
         }
     }
 }
