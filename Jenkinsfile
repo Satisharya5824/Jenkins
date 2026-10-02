@@ -1,22 +1,64 @@
+```groovy
 pipeline {
-    agent any
+    agent {
+        label 'AGENT-1'
+    }
+
+    environment {
+        COURSE = 'jenkins'
+    }
+
     stages {
+
         stage('Build') {
             steps {
-                echo 'Building the project...'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'testing ...'
+                script {
+                    echo "building ..."
+
+                    sh """
+                        echo "Hello Build"
+                        echo "Course: \$COURSE"
+                    """
+
+                    echo 'Building the application'
+                }
             }
         }
 
-        stage('deploy') {
+        stage('Test') {
             steps {
-                echo 'Deploying ...'
-                  
+                script {
+                    echo 'testing ...'
+                }
+
+                echo 'Testing the application'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    echo 'deploying ...'
+                }
+
+                echo 'Deploying the application'
             }
         }
     }
+
+    post {
+        always {
+            echo 'I will always say Hello again!'
+            deleteDir()
+        }
+
+        success {
+            echo 'Hello Success'
+        }
+
+        failure {
+            echo 'Hello Failure'
+        }
+    }
 }
+```
